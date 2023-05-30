@@ -1,41 +1,13 @@
-#include "Arduino.h"
-#include "Servo.h"
-
-void setPosition(int choice, int angle, int& servo_pos, Servo servo);
-
-int calcArm1AngleDeg(float horizontalDistMM);
-
-int cool(int arm1Angle);
-
-int calcArm2AngleDeg(float horizontalDistMM, int arm1AngleDeg);
+#include <Arduino.h>
+#include <Servo.h>
+#include <arm_calc.h>
+#include <servo_arm.h>
+#include <constants.h>
 
 Servo servo_arm_1;
 Servo servo_arm_2;
 Servo servo_grabber;
 Servo servo_rotator;
-
-constexpr int SERVO_ARM_1_DEFAULT = 120;
-constexpr int SERVO_ARM_1_MIN = 30;
-constexpr int SERVO_ARM_1_MAX = 130;
-
-// 10 degrees off, 190 degrees = parallel with arm 1
-constexpr int SERVO_ARM_2_DEFAULT = 40;
-constexpr int SERVO_ARM_2_MIN = 30;
-constexpr int SERVO_ARM_2_MAX = 160;
-
-constexpr int SERVO_GRABBER_DEFAULT = 0;
-constexpr int SERVO_GRABBER_MIN = 50;
-constexpr int SERVO_GRABBER_MAX = 50;
-
-constexpr int SERVO_ROTATOR_DEFAULT = 0;
-constexpr int SERVO_ROTATOR_MIN = 50;
-constexpr int SERVO_ROTATOR_MAX = 50;
-
-constexpr int SERVO_DELAY = 30;
-
-constexpr float ARM_1_LEN_MM = 231.0;
-constexpr float ARM_2_LEN_MM = 223.0;
-constexpr float GRABBER_LEN_MM = 97.0; // this is the height of where arm 2 will end up
 
 int servo_arm_1_pos = SERVO_ARM_1_DEFAULT;
 int servo_arm_2_pos = SERVO_ARM_2_DEFAULT;
@@ -148,32 +120,4 @@ void setPosition(int choice, int angle, int& servo_pos, Servo servo) {
       Serial.println(servo.read());
     }
   }
-}
-
-int calcArm1AngleDeg(float horizontalDistMM) {
-  // gamma \ alpha / theta
-  float gamma = atan((float) GRABBER_LEN_MM / (float) horizontalDistMM) * RAD_TO_DEG;
-
-  // cosine law:
-  float a = ARM_2_LEN_MM;
-  float b = sqrt(pow(horizontalDistMM, 2.0) + pow(GRABBER_LEN_MM, 2.0));
-  float c = ARM_1_LEN_MM;
-
-  float theta = acos((pow(b, 2.0) + pow(c, 2.0) - pow(a, 2.0)) / (2.0 * b * c)) * RAD_TO_DEG;
-
-  return 180 - gamma - theta;
-}
-
-int cool(int arm1Angle) {
-  Serial.print("cool beans");
-  Serial.println(arm1Angle);
-  return arm1Angle + 1;
-}
-
-int calcArm2AngleDeg(float horizontalDistMM, int arm1AngleDeg) {
-  float a = ARM_2_LEN_MM;
-  float b = sqrt(pow(horizontalDistMM, 2.0) + pow(GRABBER_LEN_MM, 2.0));
-  
-  // offset by 10
-  return asin(b * sin((float) arm1AngleDeg * DEG_TO_RAD) / a) * RAD_TO_DEG + 10;
 }
