@@ -1,7 +1,6 @@
 #include <Arduino.h>
 #include <Servo.h>
 #include <arm_calc.h>
-#include <servo_arm.h>
 #include <constants.h>
 
 Servo servo_arm_1;

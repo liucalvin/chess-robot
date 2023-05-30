@@ -27,4 +27,7 @@ constexpr float ARM_1_LEN_MM = 231.0;
 constexpr float ARM_2_LEN_MM = 223.0;
 constexpr float GRABBER_LEN_MM = 97.0; // this is the height of where arm 2 will end up
 
+constexpr int ARM_1_OFFSET = 0;
+constexpr int ARM_2_OFFSET = -10;
+
 #endif
