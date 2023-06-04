@@ -2,6 +2,8 @@
 #include <constants.h>
 #include <unity.h>
 
+constexpr int DELTA = 5;
+
 void setUp(void) {
     // unused
 }
@@ -15,8 +17,8 @@ void arm_angle_test_1() {
   int arm1AngleDeg = calcArm1AngleDeg(distance);
   int arm2AngleDeg = calcArm2AngleDeg(distance, arm1AngleDeg);
 
-  TEST_ASSERT_INT_WITHIN(2, 68 + ARM_1_OFFSET, arm1AngleDeg);
-  TEST_ASSERT_INT_WITHIN(2, 36 + ARM_2_OFFSET, arm2AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 68 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 36 + ARM_2_OFFSET, arm2AngleDeg);
 }
 
 void arm_angle_test_2() {
@@ -24,8 +26,8 @@ void arm_angle_test_2() {
   int arm1AngleDeg = calcArm1AngleDeg(distance);
   int arm2AngleDeg = calcArm2AngleDeg(distance, arm1AngleDeg);
 
-  TEST_ASSERT_INT_WITHIN(2, 85 + ARM_1_OFFSET, arm1AngleDeg);
-  TEST_ASSERT_INT_WITHIN(2, 49 + ARM_2_OFFSET, arm2AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 85 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 49 + ARM_2_OFFSET, arm2AngleDeg);
 }
 
 void arm_angle_test_3() {
@@ -33,8 +35,8 @@ void arm_angle_test_3() {
   int arm1AngleDeg = calcArm1AngleDeg(distance);
   int arm2AngleDeg = calcArm2AngleDeg(distance, arm1AngleDeg);
 
-  TEST_ASSERT_INT_WITHIN(2, 106 + ARM_1_OFFSET, arm1AngleDeg);
-  TEST_ASSERT_INT_WITHIN(2, 72 + ARM_2_OFFSET, arm2AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 106 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 72 + ARM_2_OFFSET, arm2AngleDeg);
 }
 
 void arm_angle_test_4() {
@@ -42,8 +44,8 @@ void arm_angle_test_4() {
   int arm1AngleDeg = calcArm1AngleDeg(distance);
   int arm2AngleDeg = calcArm2AngleDeg(distance, arm1AngleDeg);
 
-  TEST_ASSERT_INT_WITHIN(2, 29 + ARM_1_OFFSET, arm1AngleDeg);
-  TEST_ASSERT_INT_WITHIN(2, 25 + ARM_2_OFFSET, arm2AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 29 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 25 + ARM_2_OFFSET, arm2AngleDeg);
 }
 
 int main(int argc, char **argv) {

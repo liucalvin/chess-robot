@@ -6,9 +6,9 @@ while (invalid_input):
   color_input = input("Is user playing white or black pieces? (Enter W/B)")
 
   if (color_input == "W"):
-    play_chess(isPlayerWhite = True)
+    play_chess(isPlayerWhite=True)
   elif (color_input == "B"):
-    play_chess(isPlayerWhite = False)
+    play_chess(isPlayerWhite=False)
   else:
     invalid_input = True
 

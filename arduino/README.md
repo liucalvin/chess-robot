@@ -2,7 +2,7 @@ Ensure `platformio` cli is installed.
 
 To upload to arduino board:
 ```sh
-platformio run --target upload -e uno
+platformio run -t upload -e uno
 ```
 
 To connect to Serial monitor:
