@@ -13,6 +13,35 @@ int servo_arm_2_pos = SERVO_ARM_2_DEFAULT;
 int servo_grabber_pos = SERVO_GRABBER_DEFAULT;
 int servo_rotator_pos = SERVO_ROTATOR_DEFAULT;
 
+void setPosition(int choice, int angle, int& servo_pos, Servo servo) {
+  Serial.print("turning motor ");
+  Serial.print(choice);
+  Serial.print(" from ");
+  Serial.print(servo_pos);
+  Serial.print(" to ");
+  Serial.println(angle);
+
+  if (angle > servo_pos) {
+    for (; servo_pos <= angle; servo_pos += 1) {
+      servo.write(servo_pos);
+      delay(SERVO_DELAY);
+      Serial.print("motor ");
+      Serial.print(choice);
+      Serial.print(" current position: ");
+      Serial.println(servo.read());
+    }
+  } else {
+    for (; servo_pos >= angle; servo_pos -= 1) {
+      servo.write(servo_pos);
+      delay(SERVO_DELAY);
+      Serial.print("motor ");
+      Serial.print(choice);
+      Serial.print(" current position: ");
+      Serial.println(servo.read());
+    }
+  }
+}
+
 void setup() {
   Serial.begin(9600);
   Serial.println(servo_arm_1.read());
@@ -25,11 +54,11 @@ void setup() {
   servo_arm_2.attach(9);
   servo_arm_2.write(servo_arm_2_pos);
   
-//  Serial.println(servo_grabber.read());
-//  servo_grabber.write(servo_grabber_pos);
-//  servo_grabber.attach(10);
-//  servo_grabber.write(servo_grabber_pos);
-//  
+  Serial.println(servo_grabber.read());
+  servo_grabber.write(servo_grabber_pos);
+  servo_grabber.attach(10);
+  servo_grabber.write(servo_grabber_pos);
+
 //  Serial.println(servo_rotator.read());
 //  servo_rotator.write(pos);
 //  servo_rotator.attach(11);
@@ -64,7 +93,7 @@ void loop() {
         setPosition(choice, angle, servo_arm_2_pos, servo_arm_2);
       break;
       case 3:
-        Serial.println("turning motor 3");
+        setPosition(choice, angle, servo_grabber_pos, servo_grabber);
       break;
       case 7: {
         int arm1AngleDeg = calcArm1AngleDeg(angle);
@@ -81,42 +110,12 @@ void loop() {
         Serial.println("resetting all motors to default");
         setPosition(1, SERVO_ARM_1_DEFAULT, servo_arm_1_pos, servo_arm_1);
         setPosition(2, SERVO_ARM_2_DEFAULT, servo_arm_2_pos, servo_arm_2);
-//        setPosition(3, angle, servo_arm_1_pos, servo_arm_1);
-//        setPosition(4, angle, servo_arm_1_pos, servo_arm_1);
+        setPosition(3, SERVO_GRABBER_DEFAULT, servo_grabber_pos, servo_grabber);
         break; 
       }
       default:
         Serial.println("choose a valid option");
       break;
-    }
-  }
-}
-
-void setPosition(int choice, int angle, int& servo_pos, Servo servo) {
-  Serial.print("turning motor ");
-  Serial.print(choice);
-  Serial.print(" from ");
-  Serial.print(servo_pos);
-  Serial.print(" to ");
-  Serial.println(angle);
-
-  if (angle > servo_pos) {
-    for (; servo_pos <= angle; servo_pos += 1) {
-      servo.write(servo_pos);
-      delay(SERVO_DELAY);
-      Serial.print("motor ");
-      Serial.print(choice);
-      Serial.print(" current position: ");
-      Serial.println(servo.read());
-    }
-  } else {
-    for (; servo_pos >= angle; servo_pos -= 1) {
-      servo.write(servo_pos);
-      delay(SERVO_DELAY);
-      Serial.print("motor ");
-      Serial.print(choice);
-      Serial.print(" current position: ");
-      Serial.println(servo.read());
     }
   }
 }

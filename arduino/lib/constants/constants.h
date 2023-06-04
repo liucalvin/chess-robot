@@ -13,9 +13,9 @@ constexpr int SERVO_ARM_2_DEFAULT = 40;
 constexpr int SERVO_ARM_2_MIN = 30;
 constexpr int SERVO_ARM_2_MAX = 160;
 
-constexpr int SERVO_GRABBER_DEFAULT = 0;
-constexpr int SERVO_GRABBER_MIN = 50;
-constexpr int SERVO_GRABBER_MAX = 50;
+constexpr int SERVO_GRABBER_DEFAULT = 165;
+constexpr int SERVO_GRABBER_MIN = 135;
+constexpr int SERVO_GRABBER_MAX = 180;
 
 constexpr int SERVO_ROTATOR_DEFAULT = 0;
 constexpr int SERVO_ROTATOR_MIN = 50;
