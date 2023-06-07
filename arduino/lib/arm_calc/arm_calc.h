@@ -3,6 +3,6 @@
 
 int calcArm1AngleDeg(float horizontalDistMM);
 
-int calcArm2AngleDeg(float horizontalDistMM, int arm1AngleDeg);
+int calcArm2AngleDeg(float horizontalDistMM);
 
 #endif

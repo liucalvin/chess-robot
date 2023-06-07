@@ -18,7 +18,6 @@ constexpr int SERVO_ARM_1_DEFAULT = 115;
 constexpr int SERVO_ARM_1_MIN = 30;
 constexpr int SERVO_ARM_1_MAX = 130;
 
-// 10 degrees off, 190 degrees = parallel with arm 1
 constexpr int SERVO_ARM_2_DEFAULT = 40;
 constexpr int SERVO_ARM_2_MIN = 30;
 constexpr int SERVO_ARM_2_MAX = 160;
@@ -40,6 +39,8 @@ constexpr float ARM_2_LEN_MM = 223.0;
 constexpr float GRABBER_LEN_MM = 107.0; // this is the height of where arm 2 will end up
 
 constexpr int ARM_1_OFFSET = 0;
+// 10 degrees off, 190 degrees = parallel with arm 1
+// so 190 + offset = 180 
 constexpr int ARM_2_OFFSET = -10;
 
 #endif

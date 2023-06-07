@@ -15,7 +15,7 @@ void ServoArm::Init(int pin, int id, int default_angle, int min, int max) {
 
   servo.write(DEFAULT_POS);
   servo.attach(pin);
-  servo.write(DEFAULT_POS);
+  // servo.write(DEFAULT_POS);
 }
 
 int ServoArm::getCurrentPosition() {

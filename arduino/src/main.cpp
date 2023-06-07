@@ -4,7 +4,10 @@
 #include <constants.h>
 #include <servo_arm.h>
 
-ServoArm servo_arm_1;
+int servo_arm_1_pos = SERVO_ARM_1_DEFAULT;
+
+Servo servo_arm_1a;
+Servo servo_arm_1b;
 ServoArm servo_arm_2;
 ServoArm servo_grabber;
 
@@ -13,9 +16,15 @@ bool grabber_closed = false;
 void setup() {
   Serial.begin(9600);
 
-  servo_arm_1.Init(8, SERVO_ARM_1_ID, SERVO_ARM_1_DEFAULT, SERVO_ARM_1_MIN, SERVO_ARM_1_MAX);
-  servo_arm_2.Init(9, SERVO_ARM_2_ID, SERVO_ARM_2_DEFAULT, SERVO_ARM_2_MIN, SERVO_ARM_2_MAX);
-  servo_grabber.Init(10, SERVO_GRABBER_ID, SERVO_GRABBER_DEFAULT, SERVO_GRABBER_MIN, SERVO_GRABBER_MAX);
+  servo_arm_1a.write(servo_arm_1_pos);
+  servo_arm_1a.attach(8);
+  // servo_arm_1a.write(servo_arm_1_pos);
+  servo_arm_1b.write(180 - servo_arm_1_pos);
+  servo_arm_1b.attach(9);
+  // servo_arm_1b.write(180 - servo_arm_1_pos);
+
+  servo_arm_2.Init(10, SERVO_ARM_2_ID, SERVO_ARM_2_DEFAULT, SERVO_ARM_2_MIN, SERVO_ARM_2_MAX);
+  servo_grabber.Init(11, SERVO_GRABBER_ID, SERVO_GRABBER_DEFAULT, SERVO_GRABBER_MIN, SERVO_GRABBER_MAX);
 
   Serial.println("START");
 }
@@ -36,7 +45,24 @@ void loop() {
     // Serial.println(new_pos);
     switch(choice) {
       case SERVO_ARM_1_ID:
-        servo_arm_1.setPosition(new_pos);
+          Serial.print("turning arm from ");
+          Serial.print(servo_arm_1_pos);
+          Serial.print(" to ");
+          Serial.println(new_pos);
+
+          if (new_pos > servo_arm_1_pos) {
+            for (; servo_arm_1_pos <= new_pos && servo_arm_1_pos <= SERVO_ARM_1_MAX; servo_arm_1_pos += 1) {
+              servo_arm_1a.write(servo_arm_1_pos);
+              servo_arm_1b.write(180 - servo_arm_1_pos);
+              delay(SERVO_DELAY);
+            }
+          } else {
+            for (; servo_arm_1_pos >= new_pos && servo_arm_1_pos >= SERVO_ARM_1_MIN; servo_arm_1_pos -= 1) {
+              servo_arm_1a.write(servo_arm_1_pos);
+              servo_arm_1b.write(180 - servo_arm_1_pos);
+              delay(SERVO_DELAY);
+            }
+          }
       break;
       case SERVO_ARM_2_ID:
         servo_arm_2.setPosition(new_pos);
