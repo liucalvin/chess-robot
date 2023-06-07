@@ -5,7 +5,9 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ./arduino
     steps:
       - uses: actions/checkout@v3
       - uses: actions/cache@v3
@@ -19,9 +21,5 @@ jobs:
           python-version: '3.9'
       - name: Install PlatformIO Core
         run: pip install --upgrade platformio
-
-      - name: Move to project directory
-        run: cd ./arduino
-
       - name: Run tests
         run: platformio test -e native
