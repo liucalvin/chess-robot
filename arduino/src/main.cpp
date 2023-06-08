@@ -88,16 +88,20 @@ void loop() {
         break;
       }
       case DISTANCE_CALC_ID: {
-        int arm1AngleDeg = calcArm1AngleDeg(new_pos);
-        Serial.print("Arm 1 angle: ");
-        Serial.println(arm1AngleDeg);
-        
-        int arm2AngleDeg = calcArm2AngleDeg(new_pos, arm1AngleDeg);
-        Serial.print("Arm 2 angle: ");
-        Serial.println(arm2AngleDeg);
+        if (new_pos < 1 || new_pos > MAX_ARM_DISTANCE_MM) {
+          Serial.println("Distance out of range. Please enter a distance between 0 and 440 mm.")
+        } else {
+          int arm1AngleDeg = calcArm1AngleDeg(new_pos);
+          Serial.print("Arm 1 angle: ");
+          Serial.println(arm1AngleDeg);
+          
+          int arm2AngleDeg = calcArm2AngleDeg(new_pos, arm1AngleDeg);
+          Serial.print("Arm 2 angle: ");
+          Serial.println(arm2AngleDeg);
 
-        servo_arm_1.setPosition(arm1AngleDeg);
-        servo_arm_2.setPosition(arm2AngleDeg);
+          servo_arm_1.setPosition(arm1AngleDeg);
+          servo_arm_2.setPosition(arm2AngleDeg);
+        }
       break;
       }
       case HANDSHAKE_ID: {

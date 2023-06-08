@@ -40,36 +40,50 @@ void arm_angle_test_3() {
 }
 
 void arm_angle_test_4() {
-  int distance = 20;
-  int arm1AngleDeg = calcArm1AngleDeg(distance);
-  int arm2AngleDeg = calcArm2AngleDeg(distance);
-
-  TEST_ASSERT_INT_WITHIN(DELTA, 29 + ARM_1_OFFSET, arm1AngleDeg);
-  TEST_ASSERT_INT_WITHIN(DELTA, 25 + ARM_2_OFFSET, arm2AngleDeg);
-}
-
-void arm_angle_test_5() {
   int distance = 300;
   int arm1AngleDeg = calcArm1AngleDeg(distance);
   int arm2AngleDeg = calcArm2AngleDeg(distance);
 
   TEST_ASSERT_INT_WITHIN(DELTA, 116 + ARM_1_OFFSET, arm1AngleDeg);
   TEST_ASSERT_INT_WITHIN(DELTA, 89 + ARM_2_OFFSET, arm2AngleDeg);
+}
 
-  // gamma = 19
-  // theta = 44
+void arm_angle_test_5() {
+  int distance = 400;
+  int arm1AngleDeg = calcArm1AngleDeg(distance);
+  int arm2AngleDeg = calcArm2AngleDeg(distance);
 
-  // alpha = 45
-  // b = 318
+  TEST_ASSERT_INT_WITHIN(DELTA, 141 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 132 + ARM_2_OFFSET, arm2AngleDeg);
+}
+
+void arm_max_distance_angle_test() {
+  int distance = 440;
+  int arm1AngleDeg = calcArm1AngleDeg(distance);
+  int arm2AngleDeg = calcArm2AngleDeg(distance);
+
+  TEST_ASSERT_INT_WITHIN(DELTA, 162 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 172 + ARM_2_OFFSET, arm2AngleDeg);
+}
+
+void arm_min_distance_angle_test() {
+  int distance = 0;
+  int arm1AngleDeg = calcArm1AngleDeg(distance);
+  int arm2AngleDeg = calcArm2AngleDeg(distance);
+
+  TEST_ASSERT_INT_WITHIN(DELTA, 18 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 27 + ARM_2_OFFSET, arm2AngleDeg);
 }
 
 int main(int argc, char **argv) {
     UNITY_BEGIN();
-    RUN_TEST(arm_angle_test_1); 
-    RUN_TEST(arm_angle_test_2); 
-    RUN_TEST(arm_angle_test_3); 
-    RUN_TEST(arm_angle_test_4); 
-    RUN_TEST(arm_angle_test_5); 
+    RUN_TEST(arm_angle_test_1);
+    RUN_TEST(arm_angle_test_2);
+    RUN_TEST(arm_angle_test_3);
+    RUN_TEST(arm_angle_test_4);
+    RUN_TEST(arm_angle_test_5);
+    RUN_TEST(arm_max_distance_angle_test);
+    RUN_TEST(arm_min_distance_angle_test);
     UNITY_END();
 
     return 0;

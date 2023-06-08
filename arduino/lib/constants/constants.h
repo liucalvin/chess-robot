@@ -37,6 +37,7 @@ constexpr int SERVO_DELAY = 30;
 constexpr float ARM_1_LEN_MM = 231.0;
 constexpr float ARM_2_LEN_MM = 223.0;
 constexpr float GRABBER_LEN_MM = 107.0; // this is the height of where arm 2 will end up
+constexpr float MAX_ARM_DISTANCE_MM = 440.0;
 
 constexpr int ARM_1_OFFSET = 0;
 // 10 degrees off, 190 degrees = parallel with arm 1
