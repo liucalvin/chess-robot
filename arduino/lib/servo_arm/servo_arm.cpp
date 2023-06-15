@@ -22,6 +22,10 @@ int ServoArm::getCurrentPosition() {
   return current_pos;
 }
 
+int ServoArm::read() {
+  return servo.read();
+}
+
 void ServoArm::setPosition(int new_pos) {
   Serial.print("turning motor ");
   Serial.print(id);

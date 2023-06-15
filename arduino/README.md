@@ -1,11 +1,13 @@
 Ensure `platformio` cli is installed.
 
-To upload to arduino board:
+This project uses a ESP32 (2AC7Z-ESPWROOM32) board. 
+
+To upload files to board:
 ```sh
-platformio run -t upload -e uno
+platformio run -t upload -e esp32
 ```
 
-To connect to Serial monitor:
+To connect to serial monitor:
 ```sh
 platformio device monitor
 ```

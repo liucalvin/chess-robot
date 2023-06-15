@@ -17,6 +17,7 @@ class ServoArm {
     ServoArm();
     void Init(int pin, int id, int default_angle, int min, int max);
     int getCurrentPosition();
+    int read();
     void setPosition(int new_pos);
     void resetPosition();
 };
