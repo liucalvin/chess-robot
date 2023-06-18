@@ -26,16 +26,16 @@ constexpr int SERVO_ROTATOR_PIN = 33;
  * How the offset works:
  * Arm 1A adds this offset to its position to be in line
  * with arm 1B.
- * 
+ *
  * For theoretical_arm_1a_pos (what is calculated) and
  * real_arm_1a_pos (what the servo motor is at) we have
- * 
+ *
  * theoretical_arm_1a_pos = real_arm_1a_pos + ARM_1A_OFFSET
  * real_arm_1a_pos + ARM_1A_OFFSET = 180 - arm_1b_pos
  * so: theoretical_arm_1a_pos = 180 - arm_1b_pos
- * 
+ *
  * (If they were perfectly inline, then real_arm_1a_pos = 180 - arm_1b_pos)
- * 
+ *
  * Arm 1A range is 160 to 0 degrees
  * Arm 1B range is 0 to 160 degrees
  */
@@ -68,7 +68,7 @@ constexpr float MAX_ARM_DISTANCE_MM = 440.0;
 
 constexpr int ARM_1_OFFSET = 0;
 // 10 degrees off, 190 degrees = parallel with arm 1
-// so 190 + offset = 180 
+// so 190 + offset = 180
 constexpr int ARM_2_OFFSET = -10;
 
 #endif
