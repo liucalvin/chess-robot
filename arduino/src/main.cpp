@@ -8,7 +8,6 @@ int servo_arm_1a_pos = SERVO_ARM_1A_DEFAULT;
 
 Servo servo_arm_1a;
 Servo servo_arm_1b;
-Servo servo_rotator_servo;
 ServoArm servo_arm_2;
 ServoArm servo_grabber;
 ServoArm servo_rotator;
@@ -30,10 +29,6 @@ void setup() {
   servo_grabber.Init(SERVO_GRABBER_PIN, SERVO_GRABBER_ID, SERVO_GRABBER_DEFAULT, SERVO_GRABBER_MIN, SERVO_GRABBER_MAX);
   servo_rotator.Init(SERVO_ROTATOR_PIN, SERVO_ROTATOR_ID, SERVO_ROTATOR_DEFAULT, SERVO_ROTATOR_MIN, SERVO_ROTATOR_MAX);
 
-  servo_rotator_servo.write(10);
-  servo_rotator_servo.attach(33);
-  servo_rotator_servo.write(10);
-
   Serial.println("1a pos");
   Serial.println(servo_arm_1a_pos);
   Serial.println("1b pos");
@@ -45,14 +40,14 @@ void setup() {
 void loop() {
   if (Serial.available() > 0) {
     String data = Serial.readString();
-    Serial.println((String) "data: " + data);
+    // Serial.println((String) "data: " + data);
     int input = data.toInt();
-    Serial.println((String) "input: " + input);
+    // Serial.println((String) "input: " + input);
 
-    Serial.println("1a pos");
-    Serial.println(servo_arm_1a_pos);
-    Serial.println("1b pos");
-    Serial.println(SERVO_ARM_1_MAX - servo_arm_1a_pos);
+    // Serial.println("1a pos");
+    // Serial.println(servo_arm_1a_pos);
+    // Serial.println("1b pos");
+    // Serial.println(SERVO_ARM_1_MAX - servo_arm_1a_pos);
 
     int choice = input % 10;
     int new_pos = input / 10;
@@ -63,14 +58,13 @@ void loop() {
     Serial.println(new_pos);
     switch(choice) {
       case SERVO_ARM_1_ID:
-          Serial.print("turning 1a from ");
-          Serial.print(servo_arm_1a_pos);
-          Serial.print(" to ");
-          Serial.println(new_pos);
-          Serial.print("turning 1b to ");
-          Serial.println(SERVO_ARM_1_MAX - servo_arm_1a_pos);
-          Serial.println();
-
+          // Serial.print("turning 1a from ");
+          // Serial.print(servo_arm_1a_pos);
+          // Serial.print(" to ");
+          // Serial.println(new_pos);
+          // Serial.print("turning 1b to ");
+          // Serial.println(SERVO_ARM_1_MAX - servo_arm_1a_pos);
+          // Serial.println();
 
           if (new_pos > servo_arm_1a_pos) {
             for (; servo_arm_1a_pos <= new_pos && servo_arm_1a_pos <= SERVO_ARM_1_MAX; servo_arm_1a_pos++) {
@@ -90,15 +84,17 @@ void loop() {
         servo_arm_2.setPosition(new_pos);
       break;
       case SERVO_GRABBER_ID:
-        int new_position;
         if (grabber_closed) {
-          new_position = SERVO_GRABBER_OPEN_POS;
+          new_pos = SERVO_GRABBER_OPEN_POS;
         } else {
-          new_position = SERVO_GRABBER_CLOSED_POS;
+          new_pos = SERVO_GRABBER_CLOSED_POS;
         }
 
-        servo_grabber.setPosition(new_position);
+        servo_grabber.setPosition(new_pos);
         grabber_closed = !grabber_closed;
+      break;
+      case SERVO_ROTATOR_ID:
+        servo_rotator.setPosition(new_pos);
       break;
       case CURRENT_POSITION_ID: {
         Serial.print("Arm 1a angle:  ");
@@ -113,6 +109,10 @@ void loop() {
         Serial.print(servo_grabber.getCurrentPosition());
         Serial.print("  servo:  ");
         Serial.print(servo_grabber.read());
+        Serial.println("Rotator angle:  ");
+        Serial.print(servo_rotator.getCurrentPosition());
+        Serial.print("  servo:  ");
+        Serial.print(servo_rotator.read());
         break;
       }
       case DISTANCE_CALC_ID: {
@@ -156,13 +156,15 @@ void loop() {
 
         servo_arm_2.resetPosition();
         servo_grabber.resetPosition();
+        servo_rotator.resetPosition();
       break; 
       }
       default:
         Serial.println("Please choose a valid option");
       break;
     }
-    Serial.println("================");
+
+    Serial.println();
     Serial.print("Arm 1a angle:  ");
     Serial.println(servo_arm_1a.read());
     Serial.print("Arm 1b angle:  ");
@@ -175,6 +177,19 @@ void loop() {
     Serial.print(servo_grabber.getCurrentPosition());
     Serial.print("  servo:  ");
     Serial.println(servo_grabber.read());
+    Serial.print("Rotator angle:  ");
+    Serial.print(servo_rotator.getCurrentPosition());
+    Serial.print("  servo:  ");
+    Serial.println(servo_rotator.read());
     Serial.println("================");
   }
+}
+
+
+bool is_number(const std::string& s) {
+    return !s.empty() && std::find_if(
+      s.begin(), 
+      s.end(),
+      [](unsigned char c) { return !std::isdigit(c); }
+    ) == s.end();
 }

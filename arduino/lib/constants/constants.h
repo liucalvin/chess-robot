@@ -41,23 +41,23 @@ constexpr int SERVO_ROTATOR_PIN = 33;
  */
 constexpr int ARM_1A_OFFSET = 10;
 
-constexpr int SERVO_ARM_1A_DEFAULT = 105;
+constexpr int SERVO_ARM_1A_DEFAULT = 90;
 constexpr int SERVO_ARM_1_MIN = 0;
 constexpr int SERVO_ARM_1_MAX = 180 - ARM_1A_OFFSET;
 
-constexpr int SERVO_ARM_2_DEFAULT = 40;
+constexpr int SERVO_ARM_2_DEFAULT = 126;
 constexpr int SERVO_ARM_2_MIN = 30;
 constexpr int SERVO_ARM_2_MAX = 180;
 
 constexpr int SERVO_GRABBER_OPEN_POS = 160;
 constexpr int SERVO_GRABBER_CLOSED_POS = 180;
 constexpr int SERVO_GRABBER_DEFAULT = SERVO_GRABBER_OPEN_POS;
-constexpr int SERVO_GRABBER_MIN = 135;
+constexpr int SERVO_GRABBER_MIN = 160;
 constexpr int SERVO_GRABBER_MAX = 180;
 
-constexpr int SERVO_ROTATOR_DEFAULT = 0;
-constexpr int SERVO_ROTATOR_MIN = 50;
-constexpr int SERVO_ROTATOR_MAX = 50;
+constexpr int SERVO_ROTATOR_DEFAULT = 120;
+constexpr int SERVO_ROTATOR_MIN = 0;
+constexpr int SERVO_ROTATOR_MAX = 180;
 
 constexpr int SERVO_DELAY = 30;
 

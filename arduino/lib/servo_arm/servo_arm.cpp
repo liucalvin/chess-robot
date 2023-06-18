@@ -14,8 +14,8 @@ void ServoArm::Init(int pin, int id, int default_angle, int min, int max) {
   MAX_POS = max;
 
   servo.write(DEFAULT_POS);
-  servo.attach(pin);
-  // servo.write(DEFAULT_POS);
+  servo.attach(pin, Servo::CHANNEL_NOT_ATTACHED, min, max);
+  servo.write(DEFAULT_POS);
 }
 
 int ServoArm::getCurrentPosition() {
@@ -35,24 +35,20 @@ void ServoArm::setPosition(int new_pos) {
   Serial.println(new_pos);
 
   if (new_pos > current_pos) {
-    for (int i = current_pos; i <= new_pos && i <= MAX_POS; i += 1) {
-      servo.write(i);
-      delay(SERVO_DELAY);
-    }
     if (new_pos > MAX_POS) {
-      current_pos = MAX_POS;
-    } else {
-      current_pos = new_pos;
+      new_pos = MAX_POS;
+    }
+    for (; current_pos <= new_pos; current_pos += 1) {
+      servo.write(current_pos);
+      delay(SERVO_DELAY);
     }
   } else {
-    for (int i = current_pos; i >= new_pos && i >= MIN_POS; i -= 1) {
-      servo.write(i);
-      delay(SERVO_DELAY);
-    }
     if (new_pos < MIN_POS) {
-      current_pos = MIN_POS;
-    } else {
-      current_pos = new_pos;
+      new_pos = MIN_POS;
+    } 
+    for (; current_pos >= new_pos && current_pos >= MIN_POS; current_pos -= 1) {
+      servo.write(current_pos);
+      delay(SERVO_DELAY);
     }
   }
 }
