@@ -5,6 +5,15 @@
 
 ServoArm::ServoArm() {}
 
+/**
+ * @brief Initializes the object and attaches a new Servo object with the specified properties
+ * 
+ * @param pin - the pin attached to the servo motor
+ * @param id - a unique identifier for the arm
+ * @param default_angle - angle to which the servo will be set at startup
+ * @param min - the minimum allowable angle
+ * @param max - the maximum allowable angle
+ */
 void ServoArm::Init(int pin, int id, int default_angle, int min, int max)
 {
   this->pin = pin;
@@ -29,6 +38,11 @@ int ServoArm::read()
   return servo.read();
 }
 
+/**
+ * @brief Rotates the servo to the new position
+ * 
+ * @param new_pos the angle to rotate to, in degrees
+ */
 void ServoArm::setPosition(int new_pos)
 {
   Serial.print("turning motor ");
@@ -64,6 +78,10 @@ void ServoArm::setPosition(int new_pos)
   }
 }
 
+/**
+ * @brief Rotates the servo back to its default angle
+ * 
+ */
 void ServoArm::resetPosition()
 {
   this->setPosition(DEFAULT_POS);

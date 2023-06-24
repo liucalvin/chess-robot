@@ -5,7 +5,7 @@
 
 class ServoArm
 {
-private:
+protected:
   Servo servo;
   int id;
   int pin;
@@ -19,8 +19,8 @@ public:
   void Init(int pin, int id, int default_angle, int min, int max);
   int getCurrentPosition();
   int read();
-  void setPosition(int new_pos);
-  void resetPosition();
+  virtual void setPosition(int new_pos);
+  virtual void resetPosition();
 };
 
 #endif

@@ -55,7 +55,7 @@ constexpr int SERVO_GRABBER_DEFAULT = SERVO_GRABBER_OPEN_POS;
 constexpr int SERVO_GRABBER_MIN = 160;
 constexpr int SERVO_GRABBER_MAX = 180;
 
-constexpr int SERVO_ROTATOR_DEFAULT = 120;
+constexpr int SERVO_ROTATOR_DEFAULT = 80;
 constexpr int SERVO_ROTATOR_MIN = 0;
 constexpr int SERVO_ROTATOR_MAX = 180;
 
