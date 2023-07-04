@@ -21,6 +21,7 @@ public:
   int read();
   virtual void setPosition(int new_pos);
   virtual void resetPosition();
+  void moveInParallel(int pos, ServoArm &other, int otherPos);
 };
 
 #endif

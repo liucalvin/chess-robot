@@ -6,6 +6,11 @@
 #include <string>
 #include <array>
 
+/**
+ * @brief A singleton class wrapping all functionality that maps 
+ *        chess positions to the arm's motor rotational positions. 
+ * 
+ */
 class PositionMapper
 {
 private:
@@ -16,7 +21,7 @@ private:
   PositionMapper &operator=(const PositionMapper &) = delete;
 
 public:
-  static PositionMapper *getInstance();
+  static PositionMapper *get_instance();
   std::vector<int> get_motor_positions_from_move(std::string from, std::string to);
 };
 

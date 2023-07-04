@@ -13,11 +13,9 @@
 
 int servo_arm_1a_pos = SERVO_ARM_1A_DEFAULT;
 
-// Servo servo_arm_1a;
-// Servo servo_arm_1b;
 DoubleServoArm servo_arm_1;
 ServoArm servo_arm_2;
-ServoArm servo_grabber;
+ToggleServoArm servo_grabber;
 ServoArm servo_rotator;
 
 bool grabber_closed = false;
@@ -25,10 +23,6 @@ bool grabber_closed = false;
 void print_current_servo_angles()
 {
   Serial.println();
-  // Serial.print("Arm 1a angle:  ");
-  // Serial.println(servo_arm_1a.read());
-  // Serial.print("Arm 1b angle:  ");
-  // Serial.println(servo_arm_1b.read());
   Serial.print("Arm 1 angle:  ");
   Serial.print(servo_arm_1.getCurrentPosition());
   Serial.print("  servo:  ");
@@ -52,23 +46,10 @@ void setup()
 {
   Serial.begin(9600);
 
-  // servo_arm_1a.write(servo_arm_1a_pos);
-  // servo_arm_1a.attach(SERVO_ARM_1A_PIN);
-  // servo_arm_1a.write(servo_arm_1a_pos);
-
-  // servo_arm_1b.write(SERVO_ARM_1_MAX - servo_arm_1a_pos);
-  // servo_arm_1b.attach(SERVO_ARM_1B_PIN);
-  // servo_arm_1b.write(SERVO_ARM_1_MAX - servo_arm_1a_pos);
-
   servo_arm_1.Init(SERVO_ARM_1A_PIN, SERVO_ARM_1B_PIN, SERVO_ARM_1_ID, SERVO_ARM_1A_DEFAULT, SERVO_ARM_1_MIN, SERVO_ARM_1_MAX);
   servo_arm_2.Init(SERVO_ARM_2_PIN, SERVO_ARM_2_ID, SERVO_ARM_2_DEFAULT, SERVO_ARM_2_MIN, SERVO_ARM_2_MAX);
-  servo_grabber.Init(SERVO_GRABBER_PIN, SERVO_GRABBER_ID, SERVO_GRABBER_DEFAULT, SERVO_GRABBER_MIN, SERVO_GRABBER_MAX);
+  servo_grabber.Init(SERVO_GRABBER_PIN, SERVO_GRABBER_ID, SERVO_GRABBER_DEFAULT_OPEN, SERVO_GRABBER_OPEN_POS, SERVO_GRABBER_CLOSED_POS);
   servo_rotator.Init(SERVO_ROTATOR_PIN, SERVO_ROTATOR_ID, SERVO_ROTATOR_DEFAULT, SERVO_ROTATOR_MIN, SERVO_ROTATOR_MAX);
-
-  // Serial.println("1a pos");
-  // Serial.println(servo_arm_1a_pos);
-  // Serial.println("1b pos");
-  // Serial.println(SERVO_ARM_1_MAX - servo_arm_1a_pos);
 
   Serial.println("Ready.");
 }
@@ -92,46 +73,46 @@ void handle_selection(int input)
   switch (choice)
   {
   case SERVO_ARM_1_ID:
+  {
     servo_arm_1.setPosition(new_pos);
-
-    // if (new_pos > servo_arm_1a_pos)
-    // {
-    //   for (; servo_arm_1a_pos <= new_pos && servo_arm_1a_pos <= SERVO_ARM_1_MAX; servo_arm_1a_pos++)
-    //   {
-    //     servo_arm_1a.write(servo_arm_1a_pos);
-    //     servo_arm_1b.write(SERVO_ARM_1_MAX - servo_arm_1a_pos);
-    //     delay(SERVO_DELAY);
-    //   }
-    // }
-    // else
-    // {
-    //   for (; servo_arm_1a_pos >= new_pos && servo_arm_1a_pos >= SERVO_ARM_1_MIN; servo_arm_1a_pos--)
-    //   {
-    //     servo_arm_1a.write(servo_arm_1a_pos);
-    //     servo_arm_1b.write(SERVO_ARM_1_MAX - servo_arm_1a_pos);
-    //     delay(SERVO_DELAY);
-    //   }
-    // }
     break;
+  }
   case SERVO_ARM_2_ID:
+  {
     servo_arm_2.setPosition(new_pos);
     break;
+  }
   case SERVO_GRABBER_ID:
+  {
     if (grabber_closed)
     {
-      new_pos = SERVO_GRABBER_OPEN_POS;
+      servo_grabber.open();
     }
     else
     {
-      new_pos = SERVO_GRABBER_CLOSED_POS;
+      servo_grabber.close();
     }
-
-    servo_grabber.setPosition(new_pos);
     grabber_closed = !grabber_closed;
     break;
+  }
   case SERVO_ROTATOR_ID:
+  {
     servo_rotator.setPosition(new_pos);
     break;
+  }
+  case MOVE_IN_PARALLEL_ID:
+  {
+    int arm_1_pos_parallel = new_pos / 1000;
+    int arm_2_pos_parallel = new_pos % 1000;
+
+    Serial.print("moving in parallel. arm 1 pos: ");
+    Serial.print(arm_1_pos_parallel);
+    Serial.print(", arm_2_pos: ");
+    Serial.println(arm_2_pos_parallel);
+
+    servo_arm_1.moveInParallel(arm_1_pos_parallel, servo_arm_2, arm_2_pos_parallel);
+    break;
+  }
   case CURRENT_POSITION_ID:
   {
     print_current_servo_angles();
@@ -169,25 +150,6 @@ void handle_selection(int input)
   {
     Serial.println("Resetting all motors to default");
 
-    // if (SERVO_ARM_1A_DEFAULT > servo_arm_1a_pos)
-    // {
-    //   for (; servo_arm_1a_pos <= SERVO_ARM_1A_DEFAULT && servo_arm_1a_pos <= SERVO_ARM_1_MAX; servo_arm_1a_pos++)
-    //   {
-    //     servo_arm_1a.write(servo_arm_1a_pos);
-    //     servo_arm_1b.write(SERVO_ARM_1_MAX - servo_arm_1a_pos);
-    //     delay(SERVO_DELAY);
-    //   }
-    // }
-    // else
-    // {
-    //   for (; servo_arm_1a_pos >= SERVO_ARM_1A_DEFAULT && servo_arm_1a_pos >= SERVO_ARM_1_MIN; servo_arm_1a_pos--)
-    //   {
-    //     servo_arm_1a.write(servo_arm_1a_pos);
-    //     servo_arm_1b.write(SERVO_ARM_1_MAX - servo_arm_1a_pos);
-    //     delay(SERVO_DELAY);
-    //   }
-    // }
-
     servo_arm_1.resetPosition();
     servo_arm_2.resetPosition();
     servo_grabber.resetPosition();
@@ -195,8 +157,10 @@ void handle_selection(int input)
     break;
   }
   default:
+  {
     Serial.println("Please choose a valid option");
     break;
+  }
   }
 }
 
@@ -208,6 +172,7 @@ void loop()
     Serial.print("data: ");
     Serial.print(data);
     Serial.println("END data");
+
     if (is_valid_number(data.c_str()))
     {
       int input = data.toInt();
@@ -215,12 +180,17 @@ void loop()
     }
     else
     {
-      String from = data.substring(0, 2);
-      String to = data.substring(3, 5);
-      Serial.print("Moving piece from ");
-      Serial.print(from);
-      Serial.print(" to ");
-      Serial.println(to);
+      std::string move = data.c_str();
+      std::string from = move.substr(0, move.find("-"));
+      std::string to = move.substr(move.find("-"), move.length());
+
+      auto instructions = PositionMapper::get_instance()->get_motor_positions_from_move(from, to);
+
+      for (int instruction : instructions)
+      {
+        handle_selection(instruction);
+        delay(500);
+      }
     }
 
     print_current_servo_angles();

@@ -2,6 +2,7 @@
 #include <array>
 #include <vector>
 
+#include <constants.h>
 #include <position_mapper.h>
 
 static const std::string ARM_RAISED = "raised";
@@ -16,7 +17,7 @@ PositionMapper::PositionMapper()
 {
 }
 
-PositionMapper *PositionMapper::getInstance()
+PositionMapper *PositionMapper::get_instance()
 {
   if (instance == nullptr)
   {
@@ -26,13 +27,31 @@ PositionMapper *PositionMapper::getInstance()
   return instance;
 }
 
+/**
+ * @brief Map of all the arm's motor positions to positions on the board.
+ *        For each position on the board there is a mapping to the position
+ *        directly above the position (e.g. e1 and e1a), which is used
+ *        when setting pieces down so that they don't knock over others.
+ *
+ *        Each position is specified by (up to) three numbers, with the
+ *        specific motor encoded by the last digit.
+ */
 static std::unordered_map<std::string, std::array<int, POSITION_DIMENSIONALITY>> move_mappings{
-    {ARM_RAISED, {901, 502, 804}},
-    {ARM_WAITING, {201, 1302, 804}},
+    {ARM_RAISED, {1, 502, 4}},
+    {ARM_WAITING, {1201, 502, 804}},
     {ARM_RESTING, {901, 1262, 804}},
-    {"f1", {201, 1302, 804}},
-    {"f2", {401, 1152, 804}},
-    {"f3", {581, 1102, 804}}};
+    {"f1", {201, 1282, 814}},
+    {"f1a", {201, 1022, 814}},
+    {"f2", {351, 1152, 824}},
+    {"f2a", {351, 902, 824}},
+    {"f3", {541, 1082, 824}},
+    {"f3a", {541, 882, 824}},
+    {"f4", {681, 1032, 824}},
+    {"f4a", {681, 802, 824}},
+    {"f5", {841, 982, 884}},
+    {"f5a", {901, 782, 884}},
+    {"", {1, 2, 4}},
+    {"", {1, 2, 4}}};
 
 std::vector<int> PositionMapper::get_motor_positions_from_move(std::string from, std::string to)
 {
@@ -45,17 +64,19 @@ std::vector<int> PositionMapper::get_motor_positions_from_move(std::string from,
     add_positions(ARM_RAISED, instructions);
     add_positions(to, instructions);
     instructions.push_back(TOGGLE_GRABBER_INSTRUCTION);
+    add_positions(ARM_WAITING, instructions);
   }
   return instructions;
 }
-
+// 120346
 void PositionMapper::add_positions(std::string move, std::vector<int> &instructions)
 {
   std::array<int, POSITION_DIMENSIONALITY> &motor_positions = move_mappings[move];
 
-  for (size_t i = 0; i < motor_positions.size(); ++i)
-  {
-    int value = motor_positions[i];
-    instructions.push_back(value);
-  }
+  int first = motor_positions[0] / 10;
+  int second = motor_positions[1] / 10;
+  int combined = first * 10000 + second * 10 + MOVE_IN_PARALLEL_ID;
+  instructions.push_back(combined);
+
+  instructions.push_back(motor_positions[2]);
 }

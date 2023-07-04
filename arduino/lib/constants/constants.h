@@ -10,6 +10,7 @@ constexpr int SERVO_ARM_2_ID = 2;
 constexpr int SERVO_GRABBER_ID = 3;
 constexpr int SERVO_ROTATOR_ID = 4;
 constexpr int CURRENT_POSITION_ID = 5;
+constexpr int MOVE_IN_PARALLEL_ID = 6;
 constexpr int DISTANCE_CALC_ID = 7;
 constexpr int HANDSHAKE_ID = 8;
 constexpr int RESET_POSITION_ID = 9;
@@ -49,22 +50,22 @@ constexpr int SERVO_ARM_2_DEFAULT = 126;
 constexpr int SERVO_ARM_2_MIN = 30;
 constexpr int SERVO_ARM_2_MAX = 180;
 
-constexpr int SERVO_GRABBER_OPEN_POS = 160;
-constexpr int SERVO_GRABBER_CLOSED_POS = 180;
-constexpr int SERVO_GRABBER_DEFAULT = SERVO_GRABBER_OPEN_POS;
-constexpr int SERVO_GRABBER_MIN = 160;
-constexpr int SERVO_GRABBER_MAX = 180;
+constexpr int SERVO_GRABBER_OPEN_POS = 100;
+constexpr int SERVO_GRABBER_CLOSED_POS = 150;
+constexpr int SERVO_GRABBER_DEFAULT_OPEN = true;
 
 constexpr int SERVO_ROTATOR_DEFAULT = 80;
 constexpr int SERVO_ROTATOR_MIN = 0;
 constexpr int SERVO_ROTATOR_MAX = 180;
 
-constexpr int SERVO_DELAY = 30;
+constexpr int SERVO_DELAY = 20;
 
-constexpr float ARM_1_LEN_MM = 231.0;
-constexpr float ARM_2_LEN_MM = 223.0;
+constexpr float ARM_1_LEN_MM = 233.0;
+constexpr float ARM_2_LEN_MM = 224.0;
 constexpr float GRABBER_LEN_MM = 107.0; // this is the height of where arm 2 will end up
 constexpr float MAX_ARM_DISTANCE_MM = 440.0;
+constexpr float HEIGHT = 386.0;
+constexpr float SQUARE_WIDTH = 48.5;
 
 constexpr int ARM_1_OFFSET = 0;
 // 10 degrees off, 190 degrees = parallel with arm 1

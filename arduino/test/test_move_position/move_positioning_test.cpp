@@ -16,10 +16,20 @@ void tearDown(void)
 
 void test_move_order()
 {
-  PositionMapper *mapper = PositionMapper::getInstance();
+  //  {"f1", {201, 1282, 814}},
+  //  {"f1a", {201, 1022, 814}},
+  //  {"f2", {351, 1152, 824}},
+  //  {ARM_WAITING, {1201, 502, 804}},
+  PositionMapper *mapper = PositionMapper::get_instance();
   std::vector<int> positions = mapper->get_motor_positions_from_move("f1", "f2");
-  // 3 movements (* 3 positions each) and 2 grabber toggles
-  TEST_ASSERT_EQUAL(11, positions.size());
+  // 4 movements (* 2 positions each) and 2 grabber toggles
+  TEST_ASSERT_EQUAL(10, positions.size());
+  TEST_ASSERT_EQUAL(201286, positions[0]);
+  TEST_ASSERT_EQUAL(814, positions[1]);
+  TEST_ASSERT_EQUAL(3, positions[2]);
+  TEST_ASSERT_EQUAL(506, positions[3]);
+  TEST_ASSERT_EQUAL(1200506, positions[8]);
+  TEST_ASSERT_EQUAL(804, positions[9]);
 }
 
 int main(int argc, char **argv)
