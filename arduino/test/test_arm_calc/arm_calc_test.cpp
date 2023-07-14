@@ -90,10 +90,9 @@ void top_arm_angle_test_1()
   int arm1AngleDeg = calcArm1AngleFromTop(distance);
   int arm2AngleDeg = calcArm2AngleFromTop(distance);
 
-  TEST_ASSERT_INT_WITHIN(DELTA, 59, arm1AngleDeg);
-  TEST_ASSERT_INT_WITHIN(DELTA, 115, arm2AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 140 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 75 + ARM_2_OFFSET, arm2AngleDeg);
 }
-
 
 void top_arm_angle_test_2()
 {
@@ -101,8 +100,18 @@ void top_arm_angle_test_2()
   int arm1AngleDeg = calcArm1AngleFromTop(distance);
   int arm2AngleDeg = calcArm2AngleFromTop(distance);
 
-  TEST_ASSERT_INT_WITHIN(DELTA, 67, arm1AngleDeg);
-  TEST_ASSERT_INT_WITHIN(DELTA, 116, arm2AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 129 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 76 + ARM_2_OFFSET, arm2AngleDeg);
+}
+
+void top_arm_angle_test_3()
+{
+  int distance = 200;
+  int arm1AngleDeg = calcArm1AngleFromTop(distance);
+  int arm2AngleDeg = calcArm2AngleFromTop(distance);
+
+  TEST_ASSERT_INT_WITHIN(DELTA, 94 + ARM_1_OFFSET, arm1AngleDeg);
+  TEST_ASSERT_INT_WITHIN(DELTA, 97 + ARM_2_OFFSET, arm2AngleDeg);
 }
 
 int main(int argc, char **argv)
@@ -117,6 +126,7 @@ int main(int argc, char **argv)
   // RUN_TEST(arm_min_distance_angle_test);
   RUN_TEST(top_arm_angle_test_1);
   RUN_TEST(top_arm_angle_test_2);
+  RUN_TEST(top_arm_angle_test_3);
   UNITY_END();
 
   return 0;

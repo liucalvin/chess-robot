@@ -126,15 +126,21 @@ void handle_selection(int input)
     }
     else
     {
-      int arm1AngleDeg = calcArm1AngleDeg(new_pos);
+      int arm1AngleDeg = calcArm1AngleFromTop(new_pos);
       Serial.print("Arm 1 angle: ");
       Serial.println(arm1AngleDeg);
 
-      int arm2AngleDeg = calcArm2AngleDeg(new_pos);
+      int arm2AngleDeg = calcArm2AngleFromTop(new_pos);
       Serial.print("Arm 2 angle: ");
       Serial.println(arm2AngleDeg);
 
-      servo_arm_2.setPosition(arm2AngleDeg);
+      auto instructions = PositionMapper::get_instance()->positions_from_distances(new_pos);
+
+      for (int instruction : instructions)
+      {
+        handle_selection(instruction);
+        delay(500);
+      }
     }
     break;
   }
@@ -180,11 +186,12 @@ void loop()
     }
     else
     {
+      Serial.println("Moving according to instructions.");
       std::string move = data.c_str();
       std::string from = move.substr(0, move.find("-"));
       std::string to = move.substr(move.find("-"), move.length());
 
-      auto instructions = PositionMapper::get_instance()->get_motor_positions_from_move(from, to);
+      auto instructions = PositionMapper::get_instance()->positions_from_moves({from, to});
 
       for (int instruction : instructions)
       {

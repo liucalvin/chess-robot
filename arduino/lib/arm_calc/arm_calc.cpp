@@ -43,16 +43,14 @@ int calcArm2AngleDeg(float horizontalDistMM)
 }
 
 /**
- * @brief
- * A*sin(a) + B*sin(b-a) = h
- * B*cos(b-a) - A*cos(a) = x
+ * @brief calculates the arm angle required for a particular lateral distance
  *
  * @param x horizontal distance from the normal of the first arm's point of rotation 
  * @return arm 1 angle in degrees
  */
 int calcArm1AngleFromTop(double x)
 {
-  float h = HEIGHT;
+  float h = HEIGHT - GRABBER_LEN_MM;
   float side_a = ARM_1_LEN_MM;
   float side_b = ARM_2_LEN_MM;
   float side_c = sqrt(pow(h, 2.0) + pow(x, 2));
@@ -61,12 +59,12 @@ int calcArm1AngleFromTop(double x)
   if (x <= 0)
   {
     theta = atan(x / h) * RAD_TO_DEG;
-    return 90.0 - theta - angle_b;
+    return 90.0 + theta + angle_b + ARM_1_OFFSET;
   }
   else
   {
     theta = atan(h / x) * RAD_TO_DEG;
-    return 180.0 - theta - angle_b;
+    return theta + angle_b + ARM_1_OFFSET;
   }
 
   // let b - a = theta
@@ -93,9 +91,9 @@ int calcArm1AngleFromTop(double x)
  */
 int calcArm2AngleFromTop(double x)
 {
-  float h = HEIGHT;
+  float h = HEIGHT - GRABBER_LEN_MM;
   float side_a = ARM_1_LEN_MM;
   float side_b = ARM_2_LEN_MM;
   float side_c = sqrt(pow(h, 2.0) + pow(x, 2));
-  return cosineLawAngle(side_c, side_b, side_a);
+  return cosineLawAngle(side_c, side_b, side_a) + ARM_2_OFFSET;
 }

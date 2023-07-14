@@ -67,9 +67,9 @@ constexpr float MAX_ARM_DISTANCE_MM = 440.0;
 constexpr float HEIGHT = 386.0;
 constexpr float SQUARE_WIDTH = 48.5;
 
-constexpr int ARM_1_OFFSET = 0;
-// 10 degrees off, 190 degrees = parallel with arm 1
-// so 190 + offset = 180
-constexpr int ARM_2_OFFSET = -10;
+// 90 is 37 on the motor -> add -53 to theoretical to get motor position
+constexpr int ARM_1_OFFSET = -53;
+// 90 is 108 on the motor -> add 18 to theoretical to get motor position
+constexpr int ARM_2_OFFSET = 18;
 
 #endif

@@ -5,11 +5,12 @@
 #include <vector>
 #include <string>
 #include <array>
+#include <initializer_list>
 
 /**
- * @brief A singleton class wrapping all functionality that maps 
- *        chess positions to the arm's motor rotational positions. 
- * 
+ * @brief A singleton class wrapping all functionality that maps
+ *        chess positions to the arm's motor rotational positions.
+ *
  */
 class PositionMapper
 {
@@ -21,8 +22,15 @@ private:
   PositionMapper &operator=(const PositionMapper &) = delete;
 
 public:
+  static const std::string ARM_RAISED;
+  static const std::string ARM_WAITING;
+  static const std::string ARM_RESTING;
+  static const std::string OPEN_GRABBER;
+  static const std::string CLOSE_GRABBER;
+
   static PositionMapper *get_instance();
-  std::vector<int> get_motor_positions_from_move(std::string from, std::string to);
+  std::vector<int> positions_from_moves(std::initializer_list<std::string> moves);
+  std::vector<int> positions_from_distances(int distances...);
 };
 
 #endif
